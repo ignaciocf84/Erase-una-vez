@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>ÉRASE UNA VEZ… ¡LA MÚSICA! - 6.º de Educación Primaria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6 Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Pulsación animada para botones de reproducción en PDI */
+        @keyframes playPulse {
+            0% {
+                transform: scale(0.98);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            70% {
+                transform: scale(1.08);
+                box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+            }
+            100% {
+                transform: scale(0.98);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .btn-play-pulse {
+            animation: playPulse 2.2s infinite ease-in-out;
+        }
+
+        .btn-play-pulse:hover {
+            animation: none;
+            transform: scale(1.12);
+        }
+
+        /* Scroll suave para la navegación */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col selection:bg-indigo-200 selection:text-indigo-900">
+
+    <!-- BARRA SUPERIOR DE ACCESIBILIDAD PDI Y NAVEGACIÓN -->
+    <header id="mainHeader" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-md border-b border-slate-200 px-3 md:px-6 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Título del Recurso Didáctico -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2.5 md:p-3 rounded-2xl shadow-md">
+                    <i class="fa-solid fa-music text-xl md:text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight leading-none">
+                        ÉRASE UNA VEZ… ¡LA MÚSICA!
+                    </h1>
+                    <span class="text-xs md:text-sm font-semibold text-indigo-600 tracking-wide">
+                        Historia de la Música · Recursos didácticos interactivos para 6.º de Educación Primaria
+                    </span>
+                </div>
+            </div>
+
+            <!-- Controles Táctiles de Accesibilidad PDI -->
+            <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-300">
+                <span class="text-xs font-bold text-slate-600 px-2 hidden sm:inline">
+                    <i class="fa-solid fa-text-height mr-1"></i>Fuente PDI:
+                </span>
+                <button onclick="changeFontSize(-5)" title="Disminuir tamaño de fuente" class="w-10 h-10 md:w-11 md:h-11 bg-white hover:bg-slate-200 text-slate-800 rounded-xl font-black text-lg shadow-sm border border-slate-300 flex items-center justify-center active:scale-95 transition-all">
+                    A-
+                </button>
+                <button onclick="resetFontSize()" title="Restablecer tamaño por defecto" class="px-2.5 h-10 md:h-11 bg-white hover:bg-slate-200 text-slate-800 rounded-xl font-bold text-sm shadow-sm border border-slate-300 flex items-center justify-center active:scale-95 transition-all">
+                    <span id="fontIndicator">100%</span>
+                </button>
+                <button onclick="changeFontSize(5)" title="Aumentar tamaño de fuente" class="w-10 h-10 md:w-11 md:h-11 bg-white hover:bg-slate-200 text-slate-800 rounded-xl font-black text-lg shadow-sm border border-slate-300 flex items-center justify-center active:scale-95 transition-all">
+                    A+
+                </button>
+                <div class="w-px h-7 bg-slate-300 mx-1"></div>
+                <button onclick="toggleFullscreen()" title="Pantalla Completa" class="w-10 h-10 md:w-11 md:h-11 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-sm flex items-center justify-center active:scale-95 transition-all">
+                    <i class="fa-solid fa-expand text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menú Rápido de Navegación por Etapas (1 al 8 siempre visibles y centrados) -->
+        <nav aria-label="Navegación por etapas musicales" class="max-w-7xl mx-auto mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-center gap-2">
+            <a href="#edad-media" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200 active:scale-95 transition-all">1. Edad Media</a>
+            <a href="#renacimiento" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 hover:bg-emerald-200 active:scale-95 transition-all">2. Renacimiento</a>
+            <a href="#barroco" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-purple-100 text-purple-900 border border-purple-300 hover:bg-purple-200 active:scale-95 transition-all">3. Barroco</a>
+            <a href="#clasicismo" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-sky-100 text-sky-900 border border-sky-300 hover:bg-sky-200 active:scale-95 transition-all">4. Clasicismo</a>
+            <a href="#romanticismo" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-rose-100 text-rose-900 border border-rose-300 hover:bg-rose-200 active:scale-95 transition-all">5. Romanticismo</a>
+            <a href="#nacionalismos" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-orange-100 text-orange-900 border border-orange-300 hover:bg-orange-200 active:scale-95 transition-all">6. Nacionalismos</a>
+            <a href="#modernismo" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-indigo-100 text-indigo-900 border border-indigo-300 hover:bg-indigo-200 active:scale-95 transition-all">7. Modernismo</a>
+            <a href="#contemporanea" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-teal-100 text-teal-900 border border-teal-300 hover:bg-teal-200 active:scale-95 transition-all">8. Contemporánea</a>
+        </nav>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DIDÁCTICO -->
+    <main id="contentBody" class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-8 space-y-10" style="font-size: 18px;">
+
+        <!-- 1. LA EDAD MEDIA -->
+        <section id="edad-media" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-amber-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-amber-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-amber-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">1</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-amber-950">1. La Edad Media (Siglos V al XV)</h2>
+                            <p class="text-sm font-bold text-amber-700">Época de castillos, monasterios y caballeros</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-amber-100 text-amber-900 font-bold text-xs md:text-sm rounded-full border border-amber-300">
+                        Siglos V al XV
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Contexto</strong>: Época de castillos, monasterios y caballeros. La música estaba dividida entre la Iglesia y el pueblo.</li>
+                        <li><strong>Música Religiosa</strong>: El <strong>canto gregoriano</strong>, cantado <em>a capella</em> (sin instrumentos), en latín y con una sola línea melódica que todos cantaban a la vez (monofonía).</li>
+                        <li><strong>Música Profana</strong>: Los <strong>trovadores</strong> (músicos de la nobleza) y los <strong>juglares</strong> (artistas itinerantes del pueblo) cantaban historias de amor, hazañas de caballeros y noticias por plazas y castillos.</li>
+                        <li><strong>Guido D’Arezzo fue un</strong> monje benedictino y teórico musical fundamental para la historia de la música.</li>
+                        <li>Creó el primer sistema de notación musical moderno para ayudar a los monjes a recordar las melodías sin depender solo de la memoria.</li>
+                        <li><strong>Origen de las notas musicales</strong>: Nombró las notas utilizando las primeras sílabas de cada verso del <em>Himno a San Juan Bautista</em>:
+                            <ul class="list-circle pl-6 mt-2 space-y-1 text-slate-800">
+                                <li><strong>Ut</strong> (que más tarde se cambió por <strong>Do</strong> para facilitar el canto), <strong>Re</strong>, <strong>Mi</strong>, <strong>Fa</strong>, <strong>Sol</strong>, <strong>La</strong>. La nota <strong>Si</strong> se añadió posteriormente combinando las iniciales de <em>Sancte Ioannes</em>.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIÓN -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-amber-200">
+                    <h3 class="text-lg md:text-xl font-black text-amber-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-amber-600"></i> Audición
+                    </h3>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-amber-50 rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-amber-950 block">Léonin</span>
+                                <span class="text-slate-800 italic">Viderunt Omnes / Organum</span>
+                            </div>
+                            <button onclick="playVideo('BdhKvj7BLXI', null, 'Viderunt Omnes / Organum', 'Léonin', '1. La Edad Media (Siglos V al XV)')" 
+                                    title="Reproducir Viderunt Omnes / Organum" 
+                                    class="w-14 h-14 bg-amber-600 hover:bg-amber-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. EL RENACIMIENTO -->
+        <section id="renacimiento" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-emerald-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-500 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-emerald-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">2</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-emerald-950">2. El Renacimiento (Siglos XV y XVI)</h2>
+                            <p class="text-sm font-bold text-emerald-700">Renacer del arte y la polifonía</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-emerald-100 text-emerald-900 font-bold text-xs md:text-sm rounded-full border border-emerald-300">
+                        Siglos XV y XVI
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Contexto</strong>: Renacer del arte y la ciencia. La invención de la imprenta permitió difundir las partituras por toda Europa.</li>
+                        <li><strong>Polifonía</strong>: La música evoluciona hacia varias voces independientes que suenan al mismo tiempo armónicamente.</li>
+                        <li><strong>Instrumentos</strong>: Cobra independencia la música instrumental. Destacan la <strong>vihuela</strong> (antecesor de la guitarra), el <strong>laúd</strong>, el <strong>órgano</strong> y la <strong>flauta de pico</strong>.</li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-emerald-200">
+                    <h3 class="text-lg md:text-xl font-black text-emerald-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-emerald-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-emerald-50 rounded-2xl border border-emerald-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-emerald-950 block">Alonso Mudarra</span>
+                                <span class="text-slate-800 italic">Fantasía que contrahaze la harpa en la manera de Ludovico</span>
+                            </div>
+                            <button onclick="playVideo('4jvlP68Mm5c', null, 'Fantasía que contrahaze la harpa en la manera de Ludovico', 'Alonso Mudarra', '2. El Renacimiento (Siglos XV y XVI)')" 
+                                    title="Reproducir Fantasía de Alonso Mudarra" 
+                                    class="w-14 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-emerald-50 rounded-2xl border border-emerald-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-emerald-950 block">Cristóbal de Morales</span>
+                                <span class="text-slate-800 italic">Parce mihi Domine</span>
+                            </div>
+                            <button onclick="playVideo('TTtPxltC7_w', null, 'Parce mihi Domine', 'Cristóbal de Morales', '2. El Renacimiento (Siglos XV y XVI)')" 
+                                    title="Reproducir Parce mihi Domine" 
+                                    class="w-14 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. EL BARROCO -->
+        <section id="barroco" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-purple-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-purple-500 via-purple-600 to-fuchsia-600 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-purple-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-purple-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">3</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-purple-950">3. El Barroco (1600 - 1750)</h2>
+                            <p class="text-sm font-bold text-purple-700">Contraste, adorno y el nacimiento de la ópera</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-purple-100 text-purple-900 font-bold text-xs md:text-sm rounded-full border border-purple-300">
+                        1600 - 1750
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Características</strong>: Estilo lleno de adornos, gran contraste (entre partes fuertes y suaves, o rápidas y lentas) y mucha expresividad.</li>
+                        <li><strong>Nacimiento de la ópera</strong>: Surge en Italia como una gran historia contada a través del canto, la música y la representación teatral.</li>
+                        <li><strong>Instrumentos clave</strong>: Época dorada del <strong>violín</strong> y del <strong>clavecín</strong>.</li>
+                        <li><strong>Compositores clave</strong>: <strong>Johann Sebastian Bach</strong>, <strong>Antonio Vivaldi</strong> (autor de <em>Las cuatro estaciones</em>) y <strong>George Frideric Handel</strong>.</li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-purple-200">
+                    <h3 class="text-lg md:text-xl font-black text-purple-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-purple-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-purple-50 rounded-2xl border border-purple-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-purple-950 block">Johann Sebastian Bach</span>
+                                <span class="text-slate-800 italic">Toccata y fuga en re menor BWV 565</span>
+                            </div>
+                            <button onclick="playVideo('Pi0IuyTS_ic', 6, 'Toccata y fuga en re menor BWV 565', 'Johann Sebastian Bach', '3. El Barroco (1600 - 1750)')" 
+                                    title="Reproducir Toccata y fuga en re menor" 
+                                    class="w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-purple-50 rounded-2xl border border-purple-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-purple-950 block">Johann Sebastian Bach</span>
+                                <span class="text-slate-800 italic">El clave bien temperado (Clave)</span>
+                            </div>
+                            <button onclick="playVideo('xCqWH9bKzQE', 4, 'El clave bien temperado (Clave)', 'Johann Sebastian Bach', '3. El Barroco (1600 - 1750)')" 
+                                    title="Reproducir El clave bien temperado" 
+                                    class="w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-purple-50 rounded-2xl border border-purple-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-purple-950 block">Domenico Scarlatti</span>
+                                <span class="text-slate-800 italic">Sonata en re menor K. 213</span>
+                            </div>
+                            <button onclick="playVideo('PZ_YUDH5rBI', null, 'Sonata en re menor K. 213', 'Domenico Scarlatti', '3. El Barroco (1600 - 1750)')" 
+                                    title="Reproducir Sonata en re menor K. 213" 
+                                    class="w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-purple-50 rounded-2xl border border-purple-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-purple-950 block">Claudio Monteverdi</span>
+                                <span class="text-slate-800 italic">Dal mio permiso amato (de la ópera L'Orfeo)</span>
+                            </div>
+                            <button onclick="playVideo('XYsjXpDt0G8', 170, 'Dal mio permiso amato (de la ópera L\'Orfeo)', 'Claudio Monteverdi', '3. El Barroco (1600 - 1750)')" 
+                                    title="Reproducir Dal mio permiso amato" 
+                                    class="w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. EL CLASICISMO -->
+        <section id="clasicismo" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-sky-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-500 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-sky-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-sky-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">4</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-sky-950">4. El Clasicismo (1750 - 1820)</h2>
+                            <p class="text-sm font-bold text-sky-700">Equilibrio, claridad y la orquesta clásica</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-sky-100 text-sky-900 font-bold text-xs md:text-sm rounded-full border border-sky-300">
+                        1750 - 1820
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Características</strong>: Búsqueda del equilibrio, la claridad, la sencillez y la elegancia formal.</li>
+                        <li><strong>La Orquesta Clásica</strong>: La orquesta se organiza en secciones fijas (cuerda, viento madera, viento metal y percusión) y nace el <strong>piano</strong> tal como lo conocemos.</li>
+                        <li><strong>Formas musicales</strong>: Nacen la <strong>Sinfonía</strong> (obra para toda la orquesta), la <strong>Sonata</strong> (para uno o dos instrumentos) y el <strong>Cuarteto de cuerda</strong>.</li>
+                        <li><strong>Compositores clave</strong>: <strong>Wolfgang Amadeus Mozart</strong>, <strong>Joseph Haydn</strong> y <strong>Ludwig van Beethoven</strong>.</li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-sky-200">
+                    <h3 class="text-lg md:text-xl font-black text-sky-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-sky-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-sky-50 rounded-2xl border border-sky-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-sky-950 block">Wolfgang Amadeus Mozart</span>
+                                <span class="text-slate-800 italic">Rondo alla Turca (Piano)</span>
+                            </div>
+                            <button onclick="playVideo('0HhBr0t4VJ0', null, 'Rondo alla Turca (Piano)', 'Wolfgang Amadeus Mozart', '4. El Clasicismo (1750 - 1820)')" 
+                                    title="Reproducir Rondo alla Turca" 
+                                    class="w-14 h-14 bg-sky-600 hover:bg-sky-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-sky-50 rounded-2xl border border-sky-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-sky-950 block">Ludwig van Beethoven</span>
+                                <span class="text-slate-800 italic">Septimino en mi bemol mayor, Op. 20 (Minué)</span>
+                            </div>
+                            <button onclick="playVideo('pXsj43qCcUA', 1198, 'Septimino en mi bemol mayor, Op. 20 (Minué)', 'Ludwig van Beethoven', '4. El Clasicismo (1750 - 1820)')" 
+                                    title="Reproducir Septimino de Beethoven" 
+                                    class="w-14 h-14 bg-sky-600 hover:bg-sky-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-sky-50 rounded-2xl border border-sky-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-sky-950 block">Luigi Boccherini</span>
+                                <span class="text-slate-800 italic">Quinteto de cuerda en re mayor "Fandango" G. 448</span>
+                            </div>
+                            <button onclick="playVideo('QrdeD8LLoCM', null, 'Quinteto de cuerda en re mayor \'Fandango\' G. 448', 'Luigi Boccherini', '4. El Clasicismo (1750 - 1820)')" 
+                                    title="Reproducir Quinteto de Boccherini" 
+                                    class="w-14 h-14 bg-sky-600 hover:bg-sky-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EL ROMANTICISMO -->
+        <section id="romanticismo" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-rose-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-rose-400 via-pink-500 to-red-500 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-rose-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-rose-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">5</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-rose-950">5. El Romanticismo (1820 - 1900)</h2>
+                            <p class="text-sm font-bold text-rose-700">Emoción profunda, virtuosismo y gran orquesta</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-rose-100 text-rose-900 font-bold text-xs md:text-sm rounded-full border border-rose-300">
+                        1820 - 1900
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Características</strong>: La prioridad absoluta de los músicos es expresar <strong>emociones profundas</strong>, libertad creativa, pasiones y sentimientos.</li>
+                        <li><strong>El Virtuosismo</strong>: Nacen los intérpretes prodigio capaces de tocar pasajes de extrema dificultad instrumental.</li>
+                        <li><strong>Gran Orquesta</strong>: Las orquestas crecen enormemente en número de músicos para conseguir sonoridades más potentes y variadas.</li>
+                        <li><strong>Compositores clave</strong>: <strong>Frédéric Chopin</strong> (piano), <strong>Franz Liszt</strong>, <strong>Tchaikovsky</strong> (ballets) y <strong>Richard Wagner</strong>.</li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-rose-200">
+                    <h3 class="text-lg md:text-xl font-black text-rose-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-rose-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-rose-950 block">Franz Schubert</span>
+                                <span class="text-slate-800 italic">Sinfonía n.º 8 "Inacabada" (1.er movimiento)</span>
+                            </div>
+                            <button onclick="playVideo('3tisvEpblig', 19, 'Sinfonía n.º 8 \'Inacabada\' (1.er movimiento)', 'Franz Schubert', '5. El Romanticismo (1820 - 1900)')" 
+                                    title="Reproducir Sinfonía Inacabada" 
+                                    class="w-14 h-14 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-rose-950 block">Clara Schumann</span>
+                                <span class="text-slate-800 italic">Trío con piano en sol menor, Op. 17 (Trio Gaia)</span>
+                            </div>
+                            <button onclick="playVideo('D_thUNXtN6s', null, 'Trío con piano en sol menor, Op. 17 (Trio Gaia)', 'Clara Schumann', '5. El Romanticismo (1820 - 1900)')" 
+                                    title="Reproducir Trío con piano" 
+                                    class="w-14 h-14 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-rose-950 block">Frédéric Chopin</span>
+                                <span class="text-slate-800 italic">Vals en do sostenido menor, Op. 64 n.º 2</span>
+                            </div>
+                            <button onclick="playVideo('umWXSmoctCc', null, 'Vals en do sostenido menor, Op. 64 n.º 2', 'Frédéric Chopin', '5. El Romanticismo (1820 - 1900)')" 
+                                    title="Reproducir Vals de Chopin" 
+                                    class="w-14 h-14 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-rose-950 block">Johannes Brahms</span>
+                                <span class="text-slate-800 italic">Intermezzo en mi bemol mayor, Op. 117 n.º 2</span>
+                            </div>
+                            <button onclick="playVideo('FcNtRB23AW4', null, 'Intermezzo en mi bemol mayor, Op. 117 n.º 2', 'Johannes Brahms', '5. El Romanticismo (1820 - 1900)')" 
+                                    title="Reproducir Intermezzo de Brahms" 
+                                    class="w-14 h-14 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-rose-950 block">Pyotr Ilyich Tchaikovsky</span>
+                                <span class="text-slate-800 italic">El cascanueces (Suite Op. 71a)</span>
+                            </div>
+                            <button onclick="playVideo('lfCSlE2tQco', null, 'El cascanueces (Suite Op. 71a)', 'Pyotr Ilyich Tchaikovsky', '5. El Romanticismo (1820 - 1900)')" 
+                                    title="Reproducir El cascanueces" 
+                                    class="w-14 h-14 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-rose-50 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-rose-950 block">Richard Wagner</span>
+                                <span class="text-slate-800 italic">La cabalgata de las valquirias (New World Symphony)</span>
+                            </div>
+                            <button onclick="playVideo('xeRwBiu4wfQ', null, 'La cabalgata de las valquirias (New World Symphony)', 'Richard Wagner', '5. El Romanticismo (1820 - 1900)')" 
+                                    title="Reproducir Cabalgata de las valquirias" 
+                                    class="w-14 h-14 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. LOS NACIONALISMOS -->
+        <section id="nacionalismos" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-orange-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-orange-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-orange-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">6</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-orange-950">6. Los Nacionalismos (Segunda mitad del siglo XIX y siglo XX)</h2>
+                            <p class="text-sm font-bold text-orange-700">Folclore, identidad cultural y raíces tradicionales</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-orange-100 text-orange-900 font-bold text-xs md:text-sm rounded-full border border-orange-300">
+                        S. XIX - S. XX
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Características</strong>: Movimiento en el que los compositores buscan reafirmar la identidad cultural de sus países utilizando el <strong>folclore</strong> y las canciones populares de su tierra.</li>
+                        <li><strong>Música y Raíces</strong>: Incorporan ritmos y melodías tradicionales dentro de la música académica.</li>
+                        <li><strong>España y Andalucía</strong>: Cobran relieve compositores como <strong>Manuel de Falla</strong> (nacido en Cádiz), <strong>Isaac Albéniz</strong> y <strong>Joaquín Turina</strong>, quienes se inspiraron fuertemente en el folclore andaluz y el flamenco para sus obras orquestales y para piano.</li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-orange-200">
+                    <h3 class="text-lg md:text-xl font-black text-orange-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-orange-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-orange-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-orange-950 block">Francisco Tárrega</span>
+                                <span class="text-slate-800 italic">Recuerdos de la Alhambra (Ana Vidović, guitarra clásica)</span>
+                            </div>
+                            <button onclick="playVideo('fwjX-m4LkYk', null, 'Recuerdos de la Alhambra (Ana Vidović, guitarra clásica)', 'Francisco Tárrega', '6. Los Nacionalismos (Segunda mitad del siglo XIX y siglo XX)')" 
+                                    title="Reproducir Recuerdos de la Alhambra" 
+                                    class="w-14 h-14 bg-orange-600 hover:bg-orange-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-orange-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-orange-950 block">Manuel de Falla</span>
+                                <span class="text-slate-800 italic">Canción del fuego fatuo (Estrella Morente y la Orquesta Manuel de Falla)</span>
+                            </div>
+                            <button onclick="playVideo('IQX7nq0bHZk', null, 'Canción del fuego fatuo (Estrella Morente y la Orquesta Manuel de Falla)', 'Manuel de Falla', '6. Los Nacionalismos (Segunda mitad del siglo XIX y siglo XX)')" 
+                                    title="Reproducir Canción del fuego fatuo" 
+                                    class="w-14 h-14 bg-orange-600 hover:bg-orange-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-orange-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-orange-950 block">Isaac Albéniz</span>
+                                <span class="text-slate-800 italic">Suite Española: Asturias (Versión para guitarra clásica)</span>
+                            </div>
+                            <button onclick="playVideo('4EbKNbiKyQI', null, 'Suite Española: Asturias (Versión para guitarra clásica)', 'Isaac Albéniz', '6. Los Nacionalismos (Segunda mitad del siglo XIX y siglo XX)')" 
+                                    title="Reproducir Asturias de Albéniz" 
+                                    class="w-14 h-14 bg-orange-600 hover:bg-orange-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. EL MODERNISMO -->
+        <section id="modernismo" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-indigo-300 bg-white p-6 md:p-8 relative overflow-hidden">
+                <div class="h-3 w-full bg-gradient-to-r from-indigo-500 via-blue-600 to-violet-600 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-indigo-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">7</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-indigo-950">7. El Modernismo (Principios del siglo XX)</h2>
+                            <p class="text-sm font-bold text-indigo-700">Ruptura con las reglas del pasado y sonoridades nuevas</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-indigo-100 text-indigo-900 font-bold text-xs md:text-sm rounded-full border border-indigo-300">
+                        Principios del S. XX
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Características</strong>: Ruptura deliberada con las reglas armónicas y formales del pasado. Se buscan sonoridades totalmente nuevas e innovadoras.</li>
+                        <li><strong>Corrientes principales</strong>: Impresionismo (<strong>Claude Debussy</strong>).
+                            <ul class="list-circle pl-6 mt-2 space-y-1 text-slate-800">
+                                <li><strong>Atonalismo</strong>:</li>
+                                <li><strong>Futurismo y Primitivismo</strong>: (<strong>Igor Stravinsky</strong> con <em>La consagración de la primavera</em>).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-indigo-200">
+                    <h3 class="text-lg md:text-xl font-black text-indigo-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-indigo-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl border border-indigo-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-indigo-950 block">Maurice Ravel</span>
+                                <span class="text-slate-800 italic">Bolero (MAURICE RAVEL - Bolero)</span>
+                            </div>
+                            <button onclick="playVideo('Dh9bUD-hC0A', 22, 'Bolero (MAURICE RAVEL - Bolero)', 'Maurice Ravel', '7. El Modernismo (Principios del siglo XX)')" 
+                                    title="Reproducir Bolero de Ravel" 
+                                    class="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl border border-indigo-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-indigo-950 block">Erik Satie</span>
+                                <span class="text-slate-800 italic">Gymnopédies n.º 1 (Alexandre Tharaud performs Satie's Gnossienne No. 1 at the Philharmonie de Paris!)</span>
+                            </div>
+                            <button onclick="playVideo('iMMopTSWhtM', null, 'Gymnopédies n.º 1 (Alexandre Tharaud performs Satie\'s Gnossienne No. 1 at the Philharmonie de Paris!)', 'Erik Satie', '7. El Modernismo (Principios del siglo XX)')" 
+                                    title="Reproducir Gymnopédies n.º 1" 
+                                    class="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl border border-indigo-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-4">
+                                <span class="font-black text-indigo-950 block">Igor Stravinsky</span>
+                                <span class="text-slate-800 italic">La consagración de la primavera</span>
+                            </div>
+                            <button onclick="playVideo('VOgh2EwbQm4', null, 'La consagración de la primavera', 'Igor Stravinsky', '7. El Modernismo (Principios del siglo XX)')" 
+                                    title="Reproducir La consagración de la primavera" 
+                                    class="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LA MÚSICA CONTEMPORÁNEA -->
+        <section id="contemporanea" class="scroll-mt-44">
+            <div class="rounded-3xl shadow-lg border-2 border-teal-300 bg-white p-6 md:p-8 relative overflow-hidden mb-12">
+                <div class="h-3 w-full bg-gradient-to-r from-teal-400 via-cyan-500 to-emerald-500 absolute top-0 left-0"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-teal-100 pb-4 mb-6 mt-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 md:w-14 md:h-14 bg-teal-600 text-white rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl shadow-md">8</span>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-teal-950">8. La Música Contemporánea (Siglos XX y XXI)</h2>
+                            <p class="text-sm font-bold text-teal-700">Nuevas tecnologías, bandas sonoras y diversidad de estilos</p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-1.5 bg-teal-100 text-teal-900 font-bold text-xs md:text-sm rounded-full border border-teal-300">
+                        Siglos XX y XXI
+                    </span>
+                </div>
+
+                <!-- TEXTO 100% LITERAL -->
+                <div class="space-y-4 text-slate-900 font-medium leading-relaxed">
+                    <ul class="space-y-3 list-disc pl-5">
+                        <li><strong>Características</strong>: Diversidad de estilos y convivencia entre la música académica y los nuevos medios tecnológicos.</li>
+                        <li><strong>Música electrónica y electroacústica</strong>: Creación sonora mediante sintetizadores, grabaciones del entorno (música concreta) y ordenadores.</li>
+                        <li><strong>Nuevos lenguajes</strong>: Música aleatoria (basada en el azar), minimalismo y fusión de estilos.</li>
+                        <li><strong>Cine y medios</strong>: Las <strong>bandas sonoras</strong> de cine y videojuegos (<strong>John Williams</strong>, <strong>Ennio Morricone</strong>) y la música popular urbana se convierten en los referentes culturales globales.</li>
+                    </ul>
+                </div>
+
+                <!-- AUDICIONES -->
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-teal-200">
+                    <h3 class="text-lg md:text-xl font-black text-teal-900 mb-4 flex items-center">
+                        <i class="fa-solid fa-compact-disc mr-2 text-teal-600"></i> Audiciones
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-teal-50 rounded-2xl border border-teal-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-3">
+                                <span class="font-black text-teal-950 block">Karlheinz Stockhausen</span>
+                                <span class="text-slate-800 italic">Gesang der Jünglinge</span>
+                            </div>
+                            <button onclick="playVideo('LJta6Rinvs4', 51, 'Gesang der Jünglinge', 'Karlheinz Stockhausen', '8. La Música Contemporánea (Siglos XX y XXI)')" 
+                                    title="Reproducir Gesang der Jünglinge" 
+                                    class="w-14 h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-teal-50 rounded-2xl border border-teal-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-3">
+                                <span class="font-black text-teal-950 block">Steve Reich</span>
+                                <span class="text-slate-800 italic">Violin Phase</span>
+                            </div>
+                            <button onclick="playVideo('GF479y9Gsr8', null, 'Violin Phase', 'Steve Reich', '8. La Música Contemporánea (Siglos XX y XXI)')" 
+                                    title="Reproducir Violin Phase" 
+                                    class="w-14 h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-teal-50 rounded-2xl border border-teal-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-3">
+                                <span class="font-black text-teal-950 block">John Williams</span>
+                                <span class="text-slate-800 italic">Star Wars (Banda sonora original - Vienna Philharmonic – Imperial March)</span>
+                            </div>
+                            <button onclick="playVideo('vsMWVW4xtwI', null, 'Star Wars (Banda sonora original - Vienna Philharmonic – Imperial March)', 'John Williams', '8. La Música Contemporánea (Siglos XX y XXI)')" 
+                                    title="Reproducir Star Wars" 
+                                    class="w-14 h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-teal-50 rounded-2xl border border-teal-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="pr-3">
+                                <span class="font-black text-teal-950 block">Ennio Morricone</span>
+                                <span class="text-slate-800 italic">Gabriel's Oboe (La misión)</span>
+                            </div>
+                            <button onclick="playVideo('s7w-IeNR9ko', null, 'Gabriel\'s Oboe (La misión)', 'Ennio Morricone', '8. La Música Contemporánea (Siglos XX y XXI)')" 
+                                    title="Reproducir Gabriel's Oboe" 
+                                    class="w-14 h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 btn-play-pulse flex-shrink-0">
+                                <i class="fa-solid fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA EDUCATIVO -->
+    <footer class="bg-slate-900 text-slate-300 py-6 px-4 text-center text-sm font-semibold mt-auto border-t border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-graduation-cap text-indigo-400 text-xl"></i>
+                <span>ÉRASE UNA VEZ… ¡LA MÚSICA! • Educación Primaria (6.º Curso)</span>
+            </div>
+            <p class="text-xs text-slate-400">Recurso optimizado para Pantallas Digitales Interactivas (PDI) y Proyectores</p>
+        </div>
+    </footer>
+
+    <!-- MODAL REPRODUCTOR DE YOUTUBE ACCESIBLE -->
+    <div id="videoModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 md:p-6 transition-all">
+        <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-slate-300 max-h-[92vh]">
+            
+            <!-- Cabecera del Modal -->
+            <div class="bg-slate-900 text-white p-4 md:p-5 flex items-center justify-between">
+                <div class="flex items-center space-x-3 pr-4">
+                    <div class="w-11 h-11 bg-red-600 text-white rounded-xl flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-play"></i>
+                    </div>
+                    <div>
+                        <span id="modalStage" class="block text-xs font-bold uppercase tracking-wider text-indigo-300 line-clamp-1">
+                            Etapa histórica
+                        </span>
+                        <h3 id="modalTitle" class="text-base md:text-xl font-black leading-tight text-white line-clamp-1">
+                            Título de la Obra
+                        </h3>
+                        <p id="modalSubTitle" class="text-xs md:text-sm text-slate-300 font-semibold line-clamp-1">
+                            Compositor / Intérprete
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Botón de Cierre Táctil Grande -->
+                <button onclick="closeModal()" title="Cerrar reproductor" class="w-12 h-12 bg-slate-800 hover:bg-red-600 text-white rounded-2xl flex items-center justify-center text-xl font-bold transition-colors active:scale-95 flex-shrink-0">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Contenedor Iframe YouTube Responsivo -->
+            <div class="relative w-full bg-black aspect-video flex-grow">
+                <iframe id="youtubeIframe" 
+                        class="w-full h-full border-0" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Pie del Modal con Enlace Discreto y Botón para Volver -->
+            <div class="bg-slate-100 p-3 md:p-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs md:text-sm font-semibold text-slate-600">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-indigo-600"></i> Toca el botón 'Volver al aula' o la tecla Esc para volver a la lección.
+                </span>
+                <div class="flex items-center gap-3 ml-auto">
+                    <a id="youtubeExternalLink" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500 hover:text-red-600 underline flex items-center gap-1 transition-colors">
+                        <i class="fa-brands fa-youtube"></i> Abrir en YouTube
+                    </a>
+                    <button onclick="closeModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition-all active:scale-95">
+                        Volver al aula
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: ACCESIBILIDAD Y PROTOCOLO YOUTUBE LIBRE DE ERROR 153 -->
+    <script>
+        // --- CONTROL DINÁMICO DE TAMAÑO DE FUENTE (PDI: 85% a 140%) ---
+        let currentScale = 100;
+
+        function changeFontSize(delta) {
+            currentScale = Math.max(85, Math.min(140, currentScale + delta));
+            const contentBody = document.getElementById('contentBody');
+            contentBody.style.fontSize = (18 * (currentScale / 100)) + 'px';
+            document.getElementById('fontIndicator').textContent = currentScale + '%';
+        }
+
+        function resetFontSize() {
+            currentScale = 100;
+            document.getElementById('contentBody').style.fontSize = '18px';
+            document.getElementById('fontIndicator').textContent = '100%';
+        }
+
+        // --- MODO PANTALLA COMPLETA ---
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error al activar la pantalla completa: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // --- PROTOCOLO DE REPRODUCCIÓN AUTOMÁTICA DE YOUTUBE SIN ERRORES ---
+        function playVideo(youtubeId, startTime, title, performer, stageTitle) {
+            let embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&tfcd=1&tag_for_child_directed_treatment=1`;
+            
+            if (startTime && Number(startTime) > 0) {
+                embedUrl += `&start=${Number(startTime)}`;
+            }
+
+            const currentOrigin = window.location.origin;
+            if (currentOrigin && currentOrigin !== 'null') {
+                embedUrl += `&origin=${encodeURIComponent(currentOrigin)}`;
+            }
+
+            const iframe = document.getElementById('youtubeIframe');
+            iframe.src = embedUrl;
+
+            // Actualizar datos de cabecera del modal y enlace externo discreto
+            document.getElementById('modalStage').textContent = stageTitle || 'Historia de la Música';
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalSubTitle').textContent = performer || '';
+
+            const externalUrl = `https://www.youtube.com/watch?v=${youtubeId}${startTime && Number(startTime) > 0 ? '&t=' + Number(startTime) + 's' : ''}`;
+            document.getElementById('youtubeExternalLink').href = externalUrl;
+
+            const modal = document.getElementById('videoModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const iframe = document.getElementById('youtubeIframe');
+            iframe.src = ''; // Detiene el sonido y la reproducción al instante
+
+            const modal = document.getElementById('videoModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.getElementById('videoModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Ajuste dinámico de scroll-margin-top según la altura real de la cabecera fija
+        function updateDynamicScrollMargin() {
+            const header = document.getElementById('mainHeader');
+            if (!header) return;
+            const offset = header.offsetHeight + 24;
+            document.querySelectorAll('main section[id]').forEach(section => {
+                section.style.scrollMarginTop = offset + 'px';
+            });
+        }
+
+        window.addEventListener('load', updateDynamicScrollMargin);
+        window.addEventListener('resize', updateDynamicScrollMargin);
+        updateDynamicScrollMargin();
+    </script>
+</body>
+</html>
